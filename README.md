@@ -1,136 +1,49 @@
 # LegendViewer
 
-<div align="right">
+가볍고 빠른 개인 및 소규모 팀용 데스크톱 VNC 뷰어입니다.
 
-| Language |
-| :--- |
-| **한국어** / [English](#user-content-english) / [中文](#user-content-chinese) |
+**Tauri 2, Rust, React 18, Vite, TypeScript, Tailwind CSS**를 기반으로 제작되었습니다.
 
-</div>
-
-LegendViewer는 Tauri 2 (Rust) + React 18 + Vite + TypeScript + TailwindCSS로 제작된 가볍고 빠른 개인/소규모 팀용 VNC 뷰어다.
+**언어 선택:** [한국어](README.md) | [English](README.en.md) | [简体中文](README.zh-CN.md)
 
 ---
 
-## 1. 개발 환경 (Windows)
+## 주요 기능
 
-```powershell
-winget install --id Rustlang.Rustup -e
-rustup default stable-x86_64-pc-windows-msvc
+- **연결 관리:** VNC 연결 추가 및 수정
+- **폴더 탐색:** 사이드바의 폴더 트리로 연결 항목 정리
+- **그리드 보기:** 반응형 카드 레이아웃으로 연결 대상 표시
+- **VNC 뷰어:** noVNC 기반 실시간 RFB 화면 렌더링
+- **호버 컨트롤:** 뷰어 화면에 마우스를 올리면 제어 바 표시
 
-winget install --id Microsoft.VisualStudio.2022.BuildTools -e
-winget install --id Microsoft.EdgeWebView2Runtime -e
-winget install --id OpenJS.NodeJS.LTS -e
+## 기술 스택
 
-```
-
-## 2. 프로젝트 실행
-
-```powershell
-cd LegendViwer
-
-npm install
-npm run tauri:dev
-
-```
-
-설치 파일 빌드:
-
-```powershell
-npm run tauri:build
-
-```
-
-### 2-1. macOS 빌드
-
-**(a) 로컬 빌드 (Mac)**
-
-```bash
-xcode-select --install
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh
-rustup target add aarch64-apple-darwin x86_64-apple-darwin
-
-npm install
-npm run tauri:dev
-npm run tauri build -- --target universal-apple-darwin
-
-```
-
-**(b) GitHub Actions**
-
-```powershell
-git tag v0.1.0
-git push origin v0.1.0
-
-```
-
----
-
-## 3. 폴더 구조
-
-```
-LegendViwer/
-├─ index.html
-├─ package.json
-├─ vite.config.ts
-├─ tailwind.config.js
-├─ src/
-│  ├─ main.tsx
-│  ├─ App.tsx
-│  ├─ index.css
-│  ├─ novnc.d.ts
-│  ├─ types/index.ts
-│  ├─ lib/
-│  ├─ store/useAppStore.ts
-│  ├─ hooks/
-│  ├─ components/
-│  └─ pages/
-└─ src-tauri/
-   ├─ Cargo.toml
-   ├─ tauri.conf.json
-   ├─ capabilities/default.json
-   ├─ icons/
-   └─ src/
-
-```
-
----
-
-## 4. 아키텍처
-
-| 용도 | 기술 선택 |
+| 영역 | 기술 |
 | --- | --- |
-| 실시간 RFB 렌더링 | `@novnc/novnc` |
-| WS <-> TCP 브리지 | `tokio` + `tokio-tungstenite` |
-| 썸네일 RFB | 커스텀 구현 (`rfb.rs`) |
-| VNC Auth DES | `des` + `cipher` |
-| 이미지 축소/인코딩 | `image` |
+| 데스크톱 프레임워크 | Tauri 2 |
+| 프런트엔드 | React 18, Vite, TypeScript |
+| 스타일링 | Tailwind CSS |
+| VNC 화면 렌더링 | `@novnc/novnc` |
+| WebSocket과 TCP 브리지 | Rust, `tokio`, `tokio-tungstenite` |
+| 썸네일 RFB 처리 | Rust 커스텀 구현 (`rfb.rs`) |
+| VNC 인증 | `des`, `cipher` |
+| 이미지 처리 | `image` |
 | 비밀번호 암호화 | `aes-gcm` |
 | 상태 관리 | `zustand` |
 | 애니메이션 | `framer-motion` |
 
----
+## 개발 환경
 
-## 5. 주요 UI 동작
+### Windows
 
-* **상단 바**: 커넥션 추가, 수정 모드, 설정
-* **사이드바**: 폴더 트리
-* **그리드**: 반응형 카드 그리드
-* **뷰어**: 보더리스 VNC 화면 및 호버 컨트롤 바
+필요한 도구:
 
----
+- Rust stable toolchain (MSVC)
+- Microsoft Visual Studio 2022 Build Tools
+- Microsoft Edge WebView2 Runtime
+- Node.js LTS 및 npm
 
-# LegendViewer (English)
-
-| Language |
-| --- |
-| [한국어](https://www.google.com/search?q=%23user-content-legendviewer) / **English** / [中文](https://www.google.com/search?q=%23user-content-chinese) |
-
-LegendViewer is a lightweight and fast personal/small-team VNC viewer built with Tauri 2 (Rust), React 18, Vite, TypeScript, and TailwindCSS.
-
----
-
-## 1. Development Environment (Windows)
+PowerShell에서 설치:
 
 ```powershell
 winget install --id Rustlang.Rustup -e
@@ -139,219 +52,94 @@ rustup default stable-x86_64-pc-windows-msvc
 winget install --id Microsoft.VisualStudio.2022.BuildTools -e
 winget install --id Microsoft.EdgeWebView2Runtime -e
 winget install --id OpenJS.NodeJS.LTS -e
-
 ```
 
-## 2. Running the Project
+### macOS
 
-```powershell
-cd LegendViwer
+필요한 도구:
 
-npm install
-npm run tauri:dev
-
-```
-
-Building the installer:
-
-```powershell
-npm run tauri:build
-
-```
-
-### 2-1. macOS Build
-
-**(a) Local Build (Mac)**
+- Xcode Command Line Tools
+- Rust stable toolchain
+- Node.js LTS 및 npm
 
 ```bash
 xcode-select --install
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup target add aarch64-apple-darwin x86_64-apple-darwin
-
-npm install
-npm run tauri:dev
-npm run tauri build -- --target universal-apple-darwin
-
 ```
 
-**(b) GitHub Actions**
+## 실행 및 빌드
 
-```powershell
-git tag v0.1.0
-git push origin v0.1.0
-
-```
-
----
-
-## 3. Directory Structure
-
-```
-LegendViwer/
-├─ index.html
-├─ package.json
-├─ vite.config.ts
-├─ tailwind.config.js
-├─ src/
-│  ├─ main.tsx
-│  ├─ App.tsx
-│  ├─ index.css
-│  ├─ novnc.d.ts
-│  ├─ types/index.ts
-│  ├─ lib/
-│  ├─ store/useAppStore.ts
-│  ├─ hooks/
-│  ├─ components/
-│  └─ pages/
-└─ src-tauri/
-   ├─ Cargo.toml
-   ├─ tauri.conf.json
-   ├─ capabilities/default.json
-   ├─ icons/
-   └─ src/
-
-```
-
----
-
-## 4. Architecture
-
-| Purpose | Choice |
-| --- | --- |
-| Live RFB Rendering | `@novnc/novnc` |
-| WS <-> TCP Bridge | `tokio` + `tokio-tungstenite` |
-| Thumbnail RFB | Custom implementation (`rfb.rs`) |
-| VNC Auth DES | `des` + `cipher` |
-| Image Resize/Encode | `image` |
-| Password Encryption | `aes-gcm` |
-| State Management | `zustand` |
-| Animations | `framer-motion` |
-
----
-
-## 5. Main UI Operations
-
-* **Top Bar**: Add connection, edit mode, settings
-* **Sidebar**: Folder tree
-* **Grid**: Responsive card grid
-* **Viewer**: Borderless VNC screen + hover control bar
-
----
-
-# LegendViewer (中文)
-
-| Language |
-| --- |
-| [한국어](https://www.google.com/search?q=%23user-content-legendviewer) / [English](https://www.google.com/search?q=%23user-content-english) / **中文** |
-
-LegendViewer 是一个轻量级且高效的个人/小型团队 VNC 查看器，基于 Tauri 2 (Rust) + React 18 + Vite + TypeScript + TailwindCSS 构建。
-
----
-
-## 1. 开发环境 (Windows)
-
-```powershell
-winget install --id Rustlang.Rustup -e
-rustup default stable-x86_64-pc-windows-msvc
-
-winget install --id Microsoft.VisualStudio.2022.BuildTools -e
-winget install --id Microsoft.EdgeWebView2Runtime -e
-winget install --id OpenJS.NodeJS.LTS -e
-
-```
-
-## 2. 运行项目
-
-```powershell
-cd LegendViwer
-
-npm install
-npm run tauri:dev
-
-```
-
-打包安装程序:
-
-```powershell
-npm run tauri:build
-
-```
-
-### 2-1. macOS 构建
-
-**(a) 本地构建 (Mac)**
+프로젝트 루트 디렉터리에서 실행합니다.
 
 ```bash
-xcode-select --install
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh
-rustup target add aarch64-apple-darwin x86_64-apple-darwin
-
 npm install
 npm run tauri:dev
-npm run tauri build -- --target universal-apple-darwin
-
 ```
 
-**(b) GitHub Actions**
+배포용 앱 빌드:
 
-```powershell
+```bash
+npm run tauri:build
+```
+
+macOS Universal 빌드:
+
+```bash
+npm run tauri:build -- --target universal-apple-darwin
+```
+
+위 명령은 `package.json`에 `tauri:dev` 및 `tauri:build` 스크립트가 정의되어 있다는 전제입니다. 실제 스크립트 이름은 프로젝트 설정과 일치해야 합니다.
+
+## GitHub Actions 릴리스
+
+버전 태그를 푸시하는 방식으로 릴리스 워크플로를 실행하도록 구성할 수 있습니다.
+
+```bash
 git tag v0.1.0
 git push origin v0.1.0
-
 ```
 
----
+실제 빌드 및 릴리스 동작은 저장소의 GitHub Actions 워크플로 설정에 따라 달라집니다.
 
-## 3. 目录结构
+## 프로젝트 구조
 
+```text
+LegendViewer/
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+├── src/
+│   ├── main.tsx
+│   ├── App.tsx
+│   ├── index.css
+│   ├── novnc.d.ts
+│   ├── types/
+│   ├── lib/
+│   ├── store/
+│   │   └── useAppStore.ts
+│   ├── hooks/
+│   ├── components/
+│   └── pages/
+└── src-tauri/
+    ├── Cargo.toml
+    ├── tauri.conf.json
+    ├── capabilities/
+    │   └── default.json
+    ├── icons/
+    └── src/
 ```
-LegendViwer/
-├─ index.html
-├─ package.json
-├─ vite.config.ts
-├─ tailwind.config.js
-├─ src/
-│  ├─ main.tsx
-│  ├─ App.tsx
-│  ├─ index.css
-│  ├─ novnc.d.ts
-│  ├─ types/index.ts
-│  ├─ lib/
-│  ├─ store/useAppStore.ts
-│  ├─ hooks/
-│  ├─ components/
-│  └─ pages/
-└─ src-tauri/
-   ├─ Cargo.toml
-   ├─ tauri.conf.json
-   ├─ capabilities/default.json
-   ├─ icons/
-   └─ src/
 
-```
+## UI 구성
 
----
-
-## 4. 架构
-
-| 用途 | 技术选择 |
+| 영역 | 역할 |
 | --- | --- |
-| 实时 RFB 渲染 | `@novnc/novnc` |
-| WS <-> TCP 网桥 | `tokio` + `tokio-tungstenite` |
-| 缩略图 RFB | 自定义实现 (`rfb.rs`) |
-| VNC Auth DES | `des` + `cipher` |
-| 图像缩放/编码 | `image` |
-| 密码加密 | `aes-gcm` |
-| 状态管理 | `zustand` |
-| 动画 | `framer-motion` |
+| 상단 바 | 연결 추가, 수정 모드, 설정 진입 |
+| 사이드바 | 폴더 트리 탐색 |
+| 메인 그리드 | 반응형 연결 카드 표시 |
+| 뷰어 | 테두리 없는 VNC 화면 및 호버 컨트롤 바 표시 |
 
 ---
 
-## 5. 主要 UI 操作
-
-* **顶栏**: 添加连接、编辑模式、设置
-* **侧边栏**: 文件夹树
-* **网格**: 响应式卡片网格
-* **查看器**: 无边框 VNC 屏幕 + 悬停控制栏
-
-```
+**다른 언어:** [English](README.en.md) | [简体中文](README.zh-CN.md)
